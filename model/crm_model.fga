@@ -1,0 +1,105 @@
+model
+  schema 1.1
+
+type user
+
+type clinic
+  relations
+    # Ruoli
+    define owner_dentist: [user]
+    define dentist_internal: [user]
+    define dentist_external: [user]
+    define hygienist_internal: [user]
+    define hygienist_external: [user]
+    define aso: [user]
+    define reception: [user]
+    define office_manager: [user]
+    define agent: [user]
+    define tech_support: [user]
+
+    # Macro-ruoli (RBAC)
+    define clinical_internal: owner_dentist or dentist_internal or hygienist_internal
+    define clinical_external: dentist_external or hygienist_external
+
+    define clinical_readers_internal: clinical_internal or aso or office_manager
+    define clinical_writers_internal: clinical_internal
+
+    define clinical_readers_external: clinical_external
+    define clinical_writers_external: clinical_external
+
+    define admin_readers: owner_dentist or dentist_internal or hygienist_internal or hygienist_external or aso or reception or office_manager
+    define admin_writers: owner_dentist or aso or reception or office_manager
+
+    define inventory_writers: owner_dentist or dentist_internal or hygienist_internal or aso or reception or office_manager or agent or tech_support
+    define inventory_readers: inventory_writers or dentist_external
+
+type patient
+  relations
+    define clinic: [clinic]
+
+    # ABAC: relazione di cura/incarico interna (time-bound)
+    define care_internal: [user with active_window]
+
+    # Anagrafica/gestionale paziente (amministrativo)
+    # - staff amministrativo: accesso diretto
+    # - staff clinico interno: accesso solo se assegnato (need-to-know)
+    define can_read_profile: (admin_readers from clinic) or ((clinical_readers_internal from clinic) and care_internal)
+    define can_write_profile: admin_writers from clinic
+
+type appointment
+  relations
+    define clinic: [clinic]
+    define patient: [patient]
+
+    # ABAC per esterni (e anche per interni se vuoi): accesso solo in finestra temporale
+    define practitioner: [user with active_window]
+    define aso: [user with active_window]
+
+    define active_staff: practitioner or aso
+
+type clinical_record
+  relations
+    define clinic: [clinic]
+    define patient: [patient]
+    define appointment: [appointment]
+
+    # ABAC contexts:
+    define internal_context: care_internal from patient
+    define appointment_context: active_staff from appointment
+
+    # Sanitario = RBAC su clinic + ABAC sul record
+    define can_read: ((clinical_readers_internal from clinic) and internal_context)
+                  or ((clinical_readers_external from clinic) and appointment_context)
+
+    define can_write: ((clinical_writers_internal from clinic) and internal_context)
+                   or ((clinical_writers_external from clinic) and appointment_context)
+
+type admin_record
+  relations
+    define clinic: [clinic]
+    define can_read: admin_readers from clinic
+    define can_write: admin_writers from clinic
+
+type billing_record
+  relations
+    define clinic: [clinic]
+    # Versione "semplice": billing segue admin. Se ti serve "LIMITATO", restringi qui.
+    define can_read: admin_readers from clinic
+    define can_write: admin_writers from clinic
+
+type inventory_item
+  relations
+    define clinic: [clinic]
+    define can_read: inventory_readers from clinic
+    define can_write: inventory_writers from clinic
+
+type purchase_order
+  relations
+    define clinic: [clinic]
+    define can_read: inventory_readers from clinic
+    define can_write: inventory_writers from clinic
+
+# Condition ABAC (CEL)
+condition active_window(current_time: timestamp, start_time: timestamp, end_time: timestamp) {
+  current_time >= start_time && current_time <= end_time
+}

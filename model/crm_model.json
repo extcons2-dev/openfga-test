@@ -1,0 +1,791 @@
+{
+  "schema_version": "1.1",
+  "type_definitions": [
+    {
+      "type": "user"
+    },
+    {
+      "type": "clinic",
+      "relations": {
+        "owner_dentist": {
+          "this": {}
+        },
+        "dentist_internal": {
+          "this": {}
+        },
+        "dentist_external": {
+          "this": {}
+        },
+        "hygienist_internal": {
+          "this": {}
+        },
+        "hygienist_external": {
+          "this": {}
+        },
+        "aso": {
+          "this": {}
+        },
+        "reception": {
+          "this": {}
+        },
+        "office_manager": {
+          "this": {}
+        },
+        "agent": {
+          "this": {}
+        },
+        "tech_support": {
+          "this": {}
+        },
+        "clinical_internal": {
+          "union": {
+            "child": [
+              {
+                "computedUserset": {
+                  "relation": "owner_dentist"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "dentist_internal"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "hygienist_internal"
+                }
+              }
+            ]
+          }
+        },
+        "clinical_external": {
+          "union": {
+            "child": [
+              {
+                "computedUserset": {
+                  "relation": "dentist_external"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "hygienist_external"
+                }
+              }
+            ]
+          }
+        },
+        "clinical_readers_internal": {
+          "union": {
+            "child": [
+              {
+                "computedUserset": {
+                  "relation": "clinical_internal"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "aso"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "office_manager"
+                }
+              }
+            ]
+          }
+        },
+        "clinical_writers_internal": {
+          "computedUserset": {
+            "relation": "clinical_internal"
+          }
+        },
+        "clinical_readers_external": {
+          "computedUserset": {
+            "relation": "clinical_external"
+          }
+        },
+        "clinical_writers_external": {
+          "computedUserset": {
+            "relation": "clinical_external"
+          }
+        },
+        "admin_readers": {
+          "union": {
+            "child": [
+              {
+                "computedUserset": {
+                  "relation": "owner_dentist"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "dentist_internal"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "hygienist_internal"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "hygienist_external"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "aso"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "reception"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "office_manager"
+                }
+              }
+            ]
+          }
+        },
+        "admin_writers": {
+          "union": {
+            "child": [
+              {
+                "computedUserset": {
+                  "relation": "owner_dentist"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "aso"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "reception"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "office_manager"
+                }
+              }
+            ]
+          }
+        },
+        "inventory_writers": {
+          "union": {
+            "child": [
+              {
+                "computedUserset": {
+                  "relation": "owner_dentist"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "dentist_internal"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "hygienist_internal"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "aso"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "reception"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "office_manager"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "agent"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "tech_support"
+                }
+              }
+            ]
+          }
+        },
+        "inventory_readers": {
+          "union": {
+            "child": [
+              {
+                "computedUserset": {
+                  "relation": "inventory_writers"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "dentist_external"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "owner_dentist": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "dentist_internal": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "dentist_external": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "hygienist_internal": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "hygienist_external": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "aso": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "reception": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "office_manager": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "agent": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          },
+          "tech_support": {
+            "directly_related_user_types": [
+              {
+                "type": "user"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "patient",
+      "relations": {
+        "clinic": {
+          "this": {}
+        },
+        "care_internal": {
+          "this": {}
+        },
+        "can_read_profile": {
+          "union": {
+            "child": [
+              {
+                "tupleToUserset": {
+                  "tupleset": {
+                    "relation": "clinic"
+                  },
+                  "computedUserset": {
+                    "relation": "admin_readers"
+                  }
+                }
+              },
+              {
+                "intersection": {
+                  "child": [
+                    {
+                      "tupleToUserset": {
+                        "tupleset": {
+                          "relation": "clinic"
+                        },
+                        "computedUserset": {
+                          "relation": "clinical_readers_internal"
+                        }
+                      }
+                    },
+                    {
+                      "computedUserset": {
+                        "relation": "care_internal"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "can_write_profile": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "clinic"
+            },
+            "computedUserset": {
+              "relation": "admin_writers"
+            }
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "clinic": {
+            "directly_related_user_types": [
+              {
+                "type": "clinic"
+              }
+            ]
+          },
+          "care_internal": {
+            "directly_related_user_types": [
+              {
+                "type": "user",
+                "condition": "active_window"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "appointment",
+      "relations": {
+        "clinic": {
+          "this": {}
+        },
+        "patient": {
+          "this": {}
+        },
+        "practitioner": {
+          "this": {}
+        },
+        "aso": {
+          "this": {}
+        },
+        "active_staff": {
+          "union": {
+            "child": [
+              {
+                "computedUserset": {
+                  "relation": "practitioner"
+                }
+              },
+              {
+                "computedUserset": {
+                  "relation": "aso"
+                }
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "clinic": {
+            "directly_related_user_types": [
+              {
+                "type": "clinic"
+              }
+            ]
+          },
+          "patient": {
+            "directly_related_user_types": [
+              {
+                "type": "patient"
+              }
+            ]
+          },
+          "practitioner": {
+            "directly_related_user_types": [
+              {
+                "type": "user",
+                "condition": "active_window"
+              }
+            ]
+          },
+          "aso": {
+            "directly_related_user_types": [
+              {
+                "type": "user",
+                "condition": "active_window"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "clinical_record",
+      "relations": {
+        "clinic": {
+          "this": {}
+        },
+        "patient": {
+          "this": {}
+        },
+        "appointment": {
+          "this": {}
+        },
+        "internal_context": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "patient"
+            },
+            "computedUserset": {
+              "relation": "care_internal"
+            }
+          }
+        },
+        "appointment_context": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "appointment"
+            },
+            "computedUserset": {
+              "relation": "active_staff"
+            }
+          }
+        },
+        "can_read": {
+          "union": {
+            "child": [
+              {
+                "intersection": {
+                  "child": [
+                    {
+                      "tupleToUserset": {
+                        "tupleset": {
+                          "relation": "clinic"
+                        },
+                        "computedUserset": {
+                          "relation": "clinical_readers_internal"
+                        }
+                      }
+                    },
+                    {
+                      "computedUserset": {
+                        "relation": "internal_context"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "intersection": {
+                  "child": [
+                    {
+                      "tupleToUserset": {
+                        "tupleset": {
+                          "relation": "clinic"
+                        },
+                        "computedUserset": {
+                          "relation": "clinical_readers_external"
+                        }
+                      }
+                    },
+                    {
+                      "computedUserset": {
+                        "relation": "appointment_context"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "can_write": {
+          "union": {
+            "child": [
+              {
+                "intersection": {
+                  "child": [
+                    {
+                      "tupleToUserset": {
+                        "tupleset": {
+                          "relation": "clinic"
+                        },
+                        "computedUserset": {
+                          "relation": "clinical_writers_internal"
+                        }
+                      }
+                    },
+                    {
+                      "computedUserset": {
+                        "relation": "internal_context"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "intersection": {
+                  "child": [
+                    {
+                      "tupleToUserset": {
+                        "tupleset": {
+                          "relation": "clinic"
+                        },
+                        "computedUserset": {
+                          "relation": "clinical_writers_external"
+                        }
+                      }
+                    },
+                    {
+                      "computedUserset": {
+                        "relation": "appointment_context"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "clinic": {
+            "directly_related_user_types": [
+              {
+                "type": "clinic"
+              }
+            ]
+          },
+          "patient": {
+            "directly_related_user_types": [
+              {
+                "type": "patient"
+              }
+            ]
+          },
+          "appointment": {
+            "directly_related_user_types": [
+              {
+                "type": "appointment"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "admin_record",
+      "relations": {
+        "clinic": {
+          "this": {}
+        },
+        "can_read": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "clinic"
+            },
+            "computedUserset": {
+              "relation": "admin_readers"
+            }
+          }
+        },
+        "can_write": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "clinic"
+            },
+            "computedUserset": {
+              "relation": "admin_writers"
+            }
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "clinic": {
+            "directly_related_user_types": [
+              {
+                "type": "clinic"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "billing_record",
+      "relations": {
+        "clinic": {
+          "this": {}
+        },
+        "can_read": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "clinic"
+            },
+            "computedUserset": {
+              "relation": "admin_readers"
+            }
+          }
+        },
+        "can_write": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "clinic"
+            },
+            "computedUserset": {
+              "relation": "admin_writers"
+            }
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "clinic": {
+            "directly_related_user_types": [
+              {
+                "type": "clinic"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "inventory_item",
+      "relations": {
+        "clinic": {
+          "this": {}
+        },
+        "can_read": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "clinic"
+            },
+            "computedUserset": {
+              "relation": "inventory_readers"
+            }
+          }
+        },
+        "can_write": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "clinic"
+            },
+            "computedUserset": {
+              "relation": "inventory_writers"
+            }
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "clinic": {
+            "directly_related_user_types": [
+              {
+                "type": "clinic"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "purchase_order",
+      "relations": {
+        "clinic": {
+          "this": {}
+        },
+        "can_read": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "clinic"
+            },
+            "computedUserset": {
+              "relation": "inventory_readers"
+            }
+          }
+        },
+        "can_write": {
+          "tupleToUserset": {
+            "tupleset": {
+              "relation": "clinic"
+            },
+            "computedUserset": {
+              "relation": "inventory_writers"
+            }
+          }
+        }
+      },
+      "metadata": {
+        "relations": {
+          "clinic": {
+            "directly_related_user_types": [
+              {
+                "type": "clinic"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "conditions": {
+    "active_window": {
+      "name": "active_window",
+      "expression": "current_time >= start_time && current_time <= end_time",
+      "parameters": {
+        "current_time": {
+          "type_name": "TYPE_NAME_TIMESTAMP"
+        },
+        "start_time": {
+          "type_name": "TYPE_NAME_TIMESTAMP"
+        },
+        "end_time": {
+          "type_name": "TYPE_NAME_TIMESTAMP"
+        }
+      }
+    }
+  }
+}
