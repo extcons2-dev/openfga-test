@@ -48,7 +48,7 @@ iso_now() { date -u +"%Y-%m-%dT%H:%M:%SZ"; }
 if [[ -z "${FGA_STORE_ID:-}" ]]; then
   hr "CREATE STORE"
   name="${FGA_STORE_NAME:-crm-odontoiatrico-demo}"
-  resp="$(post "${FGA_API_URL}/stores" "{"name":"${name}"}")"
+  resp="$(post "${FGA_API_URL}/stores" "{\"name\":\"${name}\"}")"
   echo "$resp" | jq .
   FGA_STORE_ID="$(echo "$resp" | jq -r '.id // .store.id')"
   [[ -n "$FGA_STORE_ID" && "$FGA_STORE_ID" != "null" ]] || { echo "Could not parse store id" >&2; exit 1; }
