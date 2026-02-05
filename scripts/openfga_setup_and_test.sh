@@ -120,7 +120,7 @@ if [[ -z "$APPT_START_TIME" || -z "$APPT_END_TIME" ]]; then
 fi
 
 hr "WRITE TUPLES (RBAC + LINKS + ABAC)"
-write_body="$(jq -n   --arg model "$FGA_MODEL_ID"   --arg clinic "$CLINIC_OBJ"   --arg patient "$PATIENT_OBJ"   --arg appt "$APPT_OBJ"   --arg cr "$CR_OBJ"   --arg ar "$AR_OBJ"   --arg inv "$INV_OBJ"   --arg u_owner "user:${USER_OWNER}"   --arg u_di "user:${USER_DENTIST_INT}"   --arg u_de "user:${USER_DENTIST_EXT}"   --arg u_hi "user:${USER_HYG_INT}"   --arg u_he "user:${USER_HYG_EXT}"   --arg u_aso "user:${USER_ASO}"   --arg u_rec "user:${USER_RECEPTION}"   --arg u_mgr "user:${USER_OFFICE_MANAGER}"   --arg u_ag "user:${USER_AGENT}"   --arg u_tech "user:${USER_TECH}"   --arg now "$NOW"   --arg is "$INTERNAL_START_TIME"   --arg ie "$INTERNAL_END_TIME"   --arg as "$APPT_START_TIME"   --arg ae "$APPT_END_TIME" '{
+write_body="$(jq -n   --arg model "$FGA_MODEL_ID"   --arg clinic "$CLINIC_OBJ"   --arg patient "$PATIENT_OBJ"   --arg appt "$APPT_OBJ"   --arg cr "$CR_OBJ"   --arg ar "$AR_OBJ"   --arg inv "$INV_OBJ"   --arg u_owner "user:${USER_OWNER}"   --arg u_di "user:${USER_DENTIST_INT}"   --arg u_de "user:${USER_DENTIST_EXT}"   --arg u_hi "user:${USER_HYG_INT}"   --arg u_he "user:${USER_HYG_EXT}"   --arg u_aso "user:${USER_ASO}"   --arg u_rec "user:${USER_RECEPTION}"   --arg u_mgr "user:${USER_OFFICE_MANAGER}"   --arg u_ag "user:${USER_AGENT}"   --arg u_tech "user:${USER_TECH}"   --arg now "$NOW"   --arg is "$INTERNAL_START_TIME"   --arg ie "$INTERNAL_END_TIME"   --arg appt_start "$APPT_START_TIME"   --arg appt_end "$APPT_END_TIME" '{
   authorization_model_id: $model,
   writes: {
     on_duplicate: "ignore",
@@ -163,7 +163,7 @@ write_body="$(jq -n   --arg model "$FGA_MODEL_ID"   --arg clinic "$CLINIC_OBJ"  
 
       # --- ABAC external: appointment window ---
       {user:$u_de, relation:"practitioner", object:$appt,
-        condition:{name:"active_window", context:{start_time:$as, end_time:$ae}}
+        condition:{name:"active_window", context:{start_time:$appt_start, end_time:$appt_end}}
       }
     ]
   }
